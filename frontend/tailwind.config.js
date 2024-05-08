@@ -10,8 +10,17 @@ export default {
       },
       fontFamily:{
         'poppins': ['Poppins', 'sans-serif'],
-      }
+      },
+      keyframes: {
+        'growandshrink': {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.5)' }
+        }
+      },
     },
+    animation: {
+      'dina': 'dina 2000ms ease-in-out infinite alternate',
+    }
   },
   plugins: [],
 }
