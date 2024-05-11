@@ -56,7 +56,7 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
             email: user.email,
             role: user.role,
             status: user.status,
-            token: user.generateJWT()
+        
         })
     } else {
         next(new ErrorResponse('Invalid user data', 400))
