@@ -112,6 +112,9 @@ exports.updatePriceProduct = asyncHandler(async (req, res, next) => {
 
 
 exports.replaceProduct = asyncHandler(async(req, res, next) => {
-
+    const product = await findById(req.params.productId)
+    if(product) {
+        
+    }
 })
 
