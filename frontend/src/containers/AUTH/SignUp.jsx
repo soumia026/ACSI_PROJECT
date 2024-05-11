@@ -9,10 +9,10 @@ import { useState } from 'react';
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({
-        fullName: '',
-        mail: '',
+        name: '',
+        email: '',
         password: '',
-        role:' '
+        roles:''
     })
     const handleChange = (e) =>{
         const {name, value } = e.target
@@ -22,6 +22,8 @@ const SignUp = () => {
         }))
     }
 
+    
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -29,25 +31,33 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(data)
+        console.log(data.roles)
+        if (!data.name || !data.email || !data.password || !data.roles) {
+            alert('Please fill in all fields');
+            return;
+        }
 
-        // try {
-        //     const response = await fetch('', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
+        try {
+            const response = await fetch('http://localhost:4000/api/users/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(JSON.stringify(data))
 
-        //     if (!response.ok) {
-        //         throw new Error('Network response was not ok');
-        //     }
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
 
-        //     const responseData = await response.json();
-        //     console.log(responseData);
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
+            const responseData = await response.json();
+            localStorage.setItem('token', responseData.token);
+            console.log(responseData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return ( 
@@ -60,13 +70,13 @@ const SignUp = () => {
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                         <img src={profile} className="w-5 h-5" aria-hidden="true" viewBox="0 0 20 16"/>
                     </div>
-                    <input type="text" name='fullName' onChange={handleChange} value={data.fullName} id="name-input" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" placeholder="Your Full Name" />
+                    <input type="text" name='name' onChange={handleChange} value={data.name} id="name-input" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" placeholder="Your Full Name" required/>
                 </div>
                 <div className="relative w-full mb-3.5">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                         <img src={mailIcon} className="w-4 h-4" aria-hidden="true" viewBox="0 0 20 16"/>
                     </div>
-                    <input type="email" name='mail' onChange={handleChange} value={data.mail} id="mail-input" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" placeholder="Email Address" />
+                    <input type="email" name='email' onChange={handleChange} value={data.email} id="mail-input" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" placeholder="Email Address" required/>
                 </div>
 
                 <div className="relative w-full mb-3.5">
@@ -81,6 +91,7 @@ const SignUp = () => {
                         name='password'
                          onChange={handleChange} 
                          value={data.password}
+                         required
                     />
                     <button 
                         type="button" 
@@ -90,19 +101,19 @@ const SignUp = () => {
                     </button>
                 </div>
                 <div className="relative w-full">
-                    <input list="roles" id="role" name="role" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" />
                     <select
                         className="absolute inset-y-0 start-0 bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 pe-7 p-2.5"
                         id="role"
-                        name="role"
+                        name="roles"
                         onChange={handleChange}
                         placeholder='Add your role'
-                        value={data.role}
+                        value={data.roles}
+                        required
                     >
                         <option value="">Add your role</option>
-                        <option value="Inventary Manager">Inventary Manager</option>
-                        <option value="Store Manager">Store Manager</option>
-                        <option value="Supplier">Supplier</option>
+                        <option value="invetory manager">Inventary Manager</option>
+                        <option value="store manager">Store Manager</option>
+                        <option value="supplier">Supplier</option>
                     </select>
                 </div>
 

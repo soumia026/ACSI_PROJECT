@@ -23,6 +23,7 @@ exports.authUser = asyncHandler(async(req, res, next) => {
             email: user.email,
             token: user.generateJWT()
         })
+        console.log('user connected successfully')
     } else {
         next(new ErrorResponse('Invalid email or password', 400))
     }
@@ -54,10 +55,11 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role,
-            status: user.status,
-            token: user.generateJWT()
+            role: user.roles,
+            status: user.status
+            // token: user.generateJWT()
         })
+        console.log('user added successfully')
     } else {
         next(new ErrorResponse('Invalid user data', 400))
     }

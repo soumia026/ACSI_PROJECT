@@ -8,7 +8,7 @@ import { useState } from 'react';
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({
-        mail: '',
+        email: '',
         password: ''
     })
     const handleChange = (e) =>{
@@ -27,24 +27,28 @@ const Login = () => {
         e.preventDefault();
         console.log(data)
 
-        // try {
-        //     const response = await fetch('', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
+        try {
+            const response = await fetch('http://localhost:4000/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'token'
+                },
+                body: JSON.stringify(data)
+            });
 
-        //     if (!response.ok) {
-        //         throw new Error('Network response was not ok');
-        //     }
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.log(errorData)
+                throw new Error('Network response was not ok');
+            }
 
-        //     const responseData = await response.json();
-        //     console.log(responseData);
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
+            const responseData = await response.json();
+            localStorage.setItem('token', responseData.token);
+            console.log(responseData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return ( 
@@ -58,7 +62,7 @@ const Login = () => {
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                         <img src={mailIcon} className="w-4 h-4" aria-hidden="true" viewBox="0 0 20 16"/>
                     </div>
-                    <input type="email" name='mail' onChange={handleChange} value={data.mail} id="mail-input" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" placeholder="Email Address" />
+                    <input type="email" name='email' onChange={handleChange} value={data.email} id="mail-input" className="bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 ps-10 p-2.5" placeholder="Email Address" required/>
                 </div>
 
                 <div className="relative w-full">
@@ -73,6 +77,7 @@ const Login = () => {
                         name='password'
                          onChange={handleChange} 
                          value={data.password}
+                         required
                     />
                     <button 
                         type="button" 

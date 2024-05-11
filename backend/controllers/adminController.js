@@ -24,22 +24,35 @@ exports.getPendingUsers = asyncHandler(async(req, res, next) =>{
 // @desc     Accept or Reject User
 // @route    PUT /api/users/
 // @access   Private
-exports.updateUser = asyncHandler(async(req, res, next) =>{
-    const user = await User.findById(req.params._id)
-    const { status } = req.body
+exports.updateUser = asyncHandler(async(req, res, next) => {
+    const user = await User.findById(req.params.userId);
+    const userEmail = await User.findOne({ email: req.body.email, status: req.body.status })
 
     if (user) {
-        const update = await User.findByIdAndUpdate(_id, { status });
-
-        if (update) {
-            res.status(201)
-            res.json({
-                user
-            })
+        const update = await User.findByIdAndUpdate(req.params.userId, {status: req.body.status});
+        if (update && userEmail.status === 'accepted') {
+            try {
+                console.log('update function invoked')
+                await sendEmail({
+                    email: userEmail.email,
+                    subject: 'Metrix - Acceptance information',
+                    message: 'You had been accepted for Metrix Entreprise, congrats!' // You need to define 'message'
+                });
+    
+                res.status(200).json({
+                    success: true,
+                    message: 'Email sent'
+                });
+                console.log('user accepted')
+            } catch (error) {
+                console.log(error);
+                return next(new ErrorResponse('Email could not be sent', 500));
+            }
+        } else {
+            console.log('user rejected')
+            return next(new ErrorResponse('Update unsuccessful or user status is not accepted', 400));
         }
-
     } else {
-        next(new ErrorResponse('User not found', 404))
+        return next(new ErrorResponse('User not found', 404));
     }
 })
-

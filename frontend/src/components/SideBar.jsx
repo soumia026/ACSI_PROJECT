@@ -16,7 +16,6 @@ import { Link, useLocation } from 'react-router-dom';
 const SideBar = () => {
     const location = useLocation()
     const path = location.pathname
-    console.log( path)
 
     return ( 
         <div className='flex items-center justify-between flex-col h-screen w-20 bg-white'>

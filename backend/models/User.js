@@ -24,10 +24,10 @@ const UserSchema = new mongoose.Schema({
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
-    roles: [{
+    roles:{ 
     type: String,
     enum: ['invetory manager', 'store manager', 'supplier'] // Define the possible roles
-    }],
+    },
     status: {
         type: String,
         enum: ['pending', 'accepted', 'rejected'],
