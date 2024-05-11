@@ -24,7 +24,7 @@ exports.authUser = asyncHandler(async(req, res, next) => {
             token: user.generateJWT()
         })
     } else {
-        next(new ErrorResponse('Invalid email or password', 400))
+        next(new ErrorResponse('Invalid  password', 400))
     }
 })
 

@@ -19,11 +19,8 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please enter password'],
-        minlength: [6, 'Password too short'],
-        select: false,
+        minlength: [6, 'Password too short']
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
     roles: [{
     type: String,
     enum: ['invetory manager', 'store manager', 'supplier'] // Define the possible roles
