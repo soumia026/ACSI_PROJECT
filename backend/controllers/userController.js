@@ -10,23 +10,26 @@ const sendEmail = require('../utils/sendEmail')
 // @desc     Authenticate user
 // @route    POST /api/users/login
 // @access   Public
-exports.authUser = asyncHandler(async(req, res, next) => {
+exports.authUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
-
-    const user = await User.findOne({email})
+    const user = await User.findOne({ email })
 
     if (user && (await user.matchPassword(password))) {
-        res.status(200)
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            token: user.generateJWT()
-        })
+        if (user.status === 'accepted') {
+            res.status(200).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: user.generateJWT()
+            })
+        } else {
+            return next(new ErrorResponse('Your account is not yet accepted', 403));
+        }
     } else {
-        next(new ErrorResponse('Invalid  password', 400))
+        return next(new ErrorResponse('Invalid email or password', 400));
     }
 })
+
 
 // @desc     Register user
 // @route    POST /api/users
@@ -130,5 +133,3 @@ exports.resetPassword = asyncHandler(async(req, res, next) => {
         next(new ErrorResponse('Reset link expired, try again', 404))
     }
 })
-
-
