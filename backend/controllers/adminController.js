@@ -5,6 +5,7 @@ const User = require('../models/User')
 const asyncHandler = require('express-async-handler')
 
 const ErrorResponse = require('../utils/ErrorResponse')
+const sendEmail = require('../utils/sendEmail')
 
 // @desc     Get pending Users
 // @route    Get /api/users/
@@ -33,6 +34,7 @@ exports.updateUser = asyncHandler(async(req, res, next) => {
         if (update && userEmail.status === 'accepted') {
             try {
                 console.log('update function invoked')
+
                 await sendEmail({
                     email: userEmail.email,
                     subject: 'Metrix - Acceptance information',
