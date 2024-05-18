@@ -14,12 +14,13 @@ exports.authAdmin = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
 
-    if (user && (await user.matchPassword(password)) && (isAdmin === true)) {
+    if (user && user.isAdmin) {
             res.status(200).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                role: 'admin',
                 token: user.generateJWT()
             })
     } else {

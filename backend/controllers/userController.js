@@ -20,8 +20,10 @@ exports.authUser = asyncHandler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
                 token: user.generateJWT()
             })
+            console.log(user.role)
         } else {
             return next(new ErrorResponse('Your account is not yet accepted', 403));
         }
@@ -35,7 +37,7 @@ exports.authUser = asyncHandler(async (req, res, next) => {
 // @route    POST /api/users
 // @access   Public
 exports.registerUser = asyncHandler(async(req, res, next) => {
-    const { name, email, password, roles } = req.body
+    const { name, email, password, role } = req.body
 
     const userExists = await User.findOne({email})
 
@@ -47,7 +49,7 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
         name,
         email,
         password,
-        roles,
+        role,
         status: 'pending'
     })
 
@@ -57,7 +59,7 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            role: user.roles,
+            role: user.role,
             status: user.status,
         
         })

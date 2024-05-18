@@ -1,12 +1,12 @@
 import Logo from '../../assets/Logo.svg'
-import { Link } from 'react-router-dom';
 import mailIcon from '../../assets/Iconly/Light/Message.png'
 import lockIcon from '../../assets/Iconly/Light/Lock.png'
 import eyeOff from '../../assets/Iconly/Light/fi_eye-off.png'
 import { useState } from 'react';
-
-const Login = () => {
+import {useNavigate} from 'react-router-dom'
+const AdminAuth = ({setUser}) => {
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate()
     const [data, setData] = useState({
         email: '',
         password: ''
@@ -25,10 +25,10 @@ const Login = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(data)
-
+        console.log(data);
+    
         try {
-            const response = await fetch('http://localhost:4000/api/users/login', {
+            const response = await fetch('http://localhost:4000/api/admin/authAdmin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,20 +36,22 @@ const Login = () => {
                 },
                 body: JSON.stringify(data)
             });
-
+    
             if (!response.ok) {
                 const errorData = await response.json();
-                console.log(errorData)
+                console.log(errorData);
                 throw new Error('Network response was not ok');
             }
-
+    
             const responseData = await response.json();
             localStorage.setItem('token', responseData.token);
-            console.log(responseData);
+            setUser(responseData)
+            navigate('/admin/requests')
         } catch (error) {
             console.error('Error:', error);
         }
     };
+    
 
     return ( 
         <div className='h-screen flex items-center justify-center bg-[#F4F5FA]'>
@@ -86,14 +88,11 @@ const Login = () => {
                         <img src={showPassword ? eyeOff : eyeOff} alt="toggle password visibility" />
                     </button>
                 </div>
-
-                <Link className='text-soumia-500 text-sm self-end'>Recover Password</Link>
                 
-                <p className='text-sm text-[#8B8D97] my-12'>Don't have an account? <Link to='/signup' className='text-soumia-500'>Sign Up</Link></p>
-                <button type='submit' className='bg-soumia-500 text-white px-14 py-3 rounded-2xl text-xl'>Login</button>
+                <button type='submit' className='bg-soumia-500 text-white px-14 py-3 rounded-2xl mt-6 text-xl'>Login</button>
             </form>
         </div>
      );
 }
  
-export default Login;
+export default AdminAuth;
