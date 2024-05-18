@@ -101,6 +101,7 @@ exports.updatePriceProduct = asyncHandler(async (req, res, next) => {
         const productUpdated = await product.save({ validateBeforeSave: false });
         if (productUpdated) {
             res.status(201).json({ product });
+            console.log('added successfully')
         } else {
             return next(new ErrorResponse('Invalid product data', 400));
         }

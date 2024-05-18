@@ -14,12 +14,13 @@ exports.authAdmin = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
 
-    if (user && (await user.matchPassword(password)) && (isAdmin === true)) {
+    if (user && user.isAdmin) {
             res.status(200).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                role: 'admin',
                 token: user.generateJWT()
             })
     } else {
@@ -46,11 +47,14 @@ exports.getPendingUsers = asyncHandler(async(req, res, next) =>{
 // @route    PUT /api/users/
 // @access   Private
 exports.updateUser = asyncHandler(async(req, res, next) => {
+    console.log('hhoooo')
     const user = await User.findById(req.params.userId);
     const userEmail = await User.findOne({ email: req.body.email, status: req.body.status })
-
+    console.log('user email ',userEmail)
     if (user) {
+        console.log('yes user')
         const update = await User.findByIdAndUpdate(req.params.userId, {status: req.body.status});
+        console.log('update: ', update)
         if (update && userEmail.status === 'accepted') {
             try {
                 await sendEmail({
@@ -71,6 +75,7 @@ exports.updateUser = asyncHandler(async(req, res, next) => {
             return next(new ErrorResponse('Update unsuccessful or user status is not accepted', 400));
         }
     } else {
+        console.log('hello')
         return next(new ErrorResponse('User not found', 404));
     }
 })

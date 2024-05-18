@@ -20,8 +20,10 @@ exports.authUser = asyncHandler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
                 token: user.generateJWT()
             })
+            console.log(user.role)
         } else {
             return next(new ErrorResponse('Your account is not yet accepted', 403));
         }

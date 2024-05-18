@@ -1,18 +1,19 @@
-import Logo from '../../assets/Logo.svg'
-import { Link } from 'react-router-dom';
-import mailIcon from '../../assets/Iconly/Light/Message.png'
-import lockIcon from '../../assets/Iconly/Light/Lock.png'
-import eyeOff from '../../assets/Iconly/Light/fi_eye-off.png'
-import profile from '../../assets/Iconly/Light/Profile.png'
+import Logo from '../assets/Logo.svg'
+import { Link, useNavigate } from 'react-router-dom';
+import mailIcon from '../assets/Iconly/Light/Message.png'
+import lockIcon from '../assets/Iconly/Light/Lock.png'
+import eyeOff from '../assets/Iconly/Light/fi_eye-off.png'
+import profile from '../assets/Iconly/Light/Profile.png'
 import { useState } from 'react';
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({
         name: '',
         email: '',
         password: '',
-        roles:''
+        role:''
     })
     const handleChange = (e) =>{
         const {name, value } = e.target
@@ -31,12 +32,10 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(data)
-        console.log(data.roles)
-        if (!data.name || !data.email || !data.password || !data.roles) {
+        if (!data.name || !data.email || !data.password || !data.role) {
             alert('Please fill in all fields');
             return;
         }
-
         try {
             const response = await fetch('http://localhost:4000/api/users/', {
                 method: 'POST',
@@ -45,16 +44,12 @@ const SignUp = () => {
                 },
                 body: JSON.stringify(data)
             });
-            console.log(JSON.stringify(data))
-
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            
-
             const responseData = await response.json();
             localStorage.setItem('token', responseData.token);
-            console.log(responseData);
+            navigate('/after_sign_up')
         } catch (error) {
             console.error('Error:', error);
         }
@@ -104,10 +99,10 @@ const SignUp = () => {
                     <select
                         className="absolute inset-y-0 start-0 bg-[#EFF1F9] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-14 pe-7 p-2.5"
                         id="role"
-                        name="roles"
+                        name="role"
                         onChange={handleChange}
                         placeholder='Add your role'
-                        value={data.roles}
+                        value={data.role}
                         required
                     >
                         <option value="">Add your role</option>
