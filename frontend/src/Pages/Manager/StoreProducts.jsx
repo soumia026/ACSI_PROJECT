@@ -4,7 +4,7 @@ import ProductsTable from "../../Components/ProductsTable";
 import { Link } from "react-router-dom";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
-const StoreProducts = () => {
+const StoreProducts = ({user}) => {
     const [products, setProducts] = useState([]);
     const [expiredProducts, setExpiredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -55,7 +55,7 @@ const StoreProducts = () => {
                 </Link>
             </div>
             <ProductBar products={products.length} expiredProducts={expiredProducts.length} />
-            <ProductsTable products={products} />
+            <ProductsTable products={products} user={user}/>
         </div>
 
 

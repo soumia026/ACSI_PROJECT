@@ -4,7 +4,7 @@ import lockIcon from '../../assets/Iconly/Light/Lock.png'
 import eyeOff from '../../assets/Iconly/Light/fi_eye-off.png'
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
-const AdminAuth = ({setUser}) => {
+const AdminAuth = ({setUser, setUserRole}) => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
     const [data, setData] = useState({
@@ -45,7 +45,8 @@ const AdminAuth = ({setUser}) => {
     
             const responseData = await response.json();
             localStorage.setItem('token', responseData.token);
-            setUser(responseData)
+            setUser(responseData.name)
+            setUserRole('admin')
             navigate('/admin/requests')
         } catch (error) {
             console.error('Error:', error);

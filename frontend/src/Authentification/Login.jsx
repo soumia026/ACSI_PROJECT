@@ -6,7 +6,7 @@ import eyeOff from '../assets/Iconly/Light/fi_eye-off.png'
 import { useState } from 'react';
 
 
-const Login = ({setUser}) => {
+const Login = ({setUser, setUserRole}) => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
     const [data, setData] = useState({
@@ -47,7 +47,8 @@ const Login = ({setUser}) => {
             const responseData = await response.json();
             localStorage.setItem('token', responseData.token);
             console.log(responseData)
-            setUser(responseData)
+            setUser(responseData.name)
+            setUserRole(responseData.role)
             navigate('/manager/products')
         } catch (error) {
             console.error('Error:', error);
