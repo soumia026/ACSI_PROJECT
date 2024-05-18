@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-const UserSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please enter name'],
     },
     category: {
         type: String,
-        enum: ['phone', 'tshirt'],
+        enum: ['produce', 'meat', 'dairy', 'frozen food'],
     },
     description: {
         type: String,
@@ -25,11 +25,26 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ['normal', 'special'],
     },
-    image: {
-        type: String,
-    },
     expireAt: {
         type: Date
-    }
-
+    },
+    purchases: [{
+        orderDate: {
+            type: Date
+        },
+        orderType: {
+            type: String,
+            enum: ['normal', 'special']
+        },
+        costPrice: {
+            type: Number
+        },
+        quantity: {
+            type: Number
+        }
+    }]
 })
+
+const Product = mongoose.model('Product', ProductSchema)
+
+module.exports = Product
