@@ -12,10 +12,23 @@ import Gift from '../assets/fi_gift.png'
 import Logout from '../assets/Iconly/Bulk/Logout.png'
 import Folder from '../assets/Iconly/Iconly/Bulk/Folder.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
 
 const SideBar = ({user}) => {
     const location = useLocation()
     const path = location.pathname
+    const [userRole, setUserRole] = useState('')
+    
+    const handleUser = () => {
+        if(user.isAdmin){
+            setUserRole('admin')
+        } else {
+            setUserRole(user.role)
+        }
+    }
+    useEffect(()=>{
+        handleUser() 
+    }, [])
     const navigate = useNavigate()
     const logout = ()=>{
         localStorage.removeItem('token')
@@ -27,7 +40,7 @@ const SideBar = ({user}) => {
                 <img src={Logo} className='w-16 mb-10 mt-2' />
                 
                 {
-                    user.role === 'admin' && 
+                    userRole === 'admin' && 
                     <ul className='flex flex-col gap-3'>
                         <img src={Category} className='p-4 rounded-xl'/>
                         <img src={Bag} className='p-4 rounded-xl'/>
@@ -38,7 +51,7 @@ const SideBar = ({user}) => {
                     </ul>
                 }
                 {
-                    user.role === 'store manager' &&
+                    userRole === 'store manager' &&
                     <ul className='flex flex-col gap-3'>
                         <img src={Category} className='p-4 rounded-xl'/>
                         <img src={Bag} className='p-4 rounded-xl'/>
