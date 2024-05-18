@@ -13,53 +13,60 @@ import { useEffect, useState } from "react";
 const Requests = () => {
 
     const [data, setData] = useState([{}])
+    const fetchData = async ()=>{
+        try {
+            const response = await fetch('http://localhost:4000/api/admin/pendingUsers')
+            if(!response.ok){
+                console.log('Network response was not ok')
+            }
+            const result = await response.json()
+            setData(result.pendingUsers)
+            console.log(result.pendingUsers)
+        } catch (error) {
+            console.log('error', error)
+        }
+    }
 
     useEffect(()=>{
-        const fetchData = async ()=>{
-            try {
-                const response = await fetch('http://localhost:4000/api/admin/pendingUsers')
-                if(!response.ok){
-                    console.log('Network response was not ok')
-                }
-                const result = await response.json()
-                setData(result.pendingUsers)
-            } catch (error) {
-                console.log('error', error)
-            }
-        }
         fetchData()
     }, [])
 
-    const handleAccept = async (userId) => {
+    const handleAccept = async (userId, userEmail) => {
         try {
+            const token= localStorage.getItem('token')
             const response = await fetch(`http://localhost:4000/api/admin/updateUser/${userId}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+
                 },
-                body: JSON.stringify({ status: 'accepted' })
+                body: JSON.stringify({email: userEmail, status: 'accepted' })
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            fetchData()
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    const handleReject = async (userId) => {
+    const handleReject = async (userId, userEmail) => {
         try {
+            const token= localStorage.getItem('token')
             const response = await fetch(`http://localhost:4000/api/admin/updateUser/${userId}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ status: 'rejected' })
+                body: JSON.stringify({email: userEmail, status: 'rejected' })
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            // Optionally, you can update the UI to reflect the rejected status
+            fetchData()
         } catch (error) {
             console.error('Error:', error);
         }
@@ -95,8 +102,8 @@ const Requests = () => {
                                         <TableCell align="left" sx={{paddingLeft: '70px'}}>{row.name}</TableCell>
                                         <TableCell align="left" sx={{paddingLeft: '70px'}}>{row.email}</TableCell>
                                         <TableCell align="left" sx={{paddingLeft: '70px'}}>{row.roles}</TableCell>
-                                        <TableCell align="left"><button onClick={() => handleAccept(row._id)} className='bg-[#92F345] px-3 py-1 text-white rounded-lg'>Accept</button></TableCell>
-                                        <TableCell align="left"><button onClick={() => handleReject(row._id)} className='bg-[#FD2525] px-3 py-1 text-white rounded-lg'>Reject</button></TableCell>
+                                        <TableCell align="left"><button onClick={() => handleAccept(row.id, row.email)} className='bg-[#92F345] px-3 py-1 text-white rounded-lg'>Accept</button></TableCell>
+                                        <TableCell align="left"><button onClick={() => handleReject(row.id, row.email)} className='bg-[#FD2525] px-3 py-1 text-white rounded-lg'>Reject</button></TableCell>
                                     </TableRow>
                                 ))}
                                 </TableBody>

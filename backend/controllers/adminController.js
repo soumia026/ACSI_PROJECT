@@ -26,11 +26,14 @@ exports.getPendingUsers = asyncHandler(async(req, res, next) =>{
 // @route    PUT /api/users/
 // @access   Private
 exports.updateUser = asyncHandler(async(req, res, next) => {
+    console.log('hhoooo')
     const user = await User.findById(req.params.userId);
     const userEmail = await User.findOne({ email: req.body.email, status: req.body.status })
-
+    console.log('user email ',userEmail)
     if (user) {
+        console.log('yes user')
         const update = await User.findByIdAndUpdate(req.params.userId, {status: req.body.status});
+        console.log('update: ', update)
         if (update && userEmail.status === 'accepted') {
             try {
                 console.log('update function invoked')
@@ -55,6 +58,7 @@ exports.updateUser = asyncHandler(async(req, res, next) => {
             return next(new ErrorResponse('Update unsuccessful or user status is not accepted', 400));
         }
     } else {
+        console.log('hello')
         return next(new ErrorResponse('User not found', 404));
     }
 })

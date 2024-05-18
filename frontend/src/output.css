@@ -668,45 +668,37 @@ video {
   height: calc(100vh - 120px);
 }
 
-.h-\[calc\(100vh-80px\)\] {
-  height: calc(100vh - 80px);
+.h-\[calc\(100vh-240px\)\] {
+  height: calc(100vh - 240px);
+}
+
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .h-screen {
   height: 100vh;
 }
 
-.h-\[calc\(100vh-200px\)\] {
-  height: calc(100vh - 200px);
+.h-\[calc\(100vh-300px\)\] {
+  height: calc(100vh - 300px);
 }
 
-.h-\[calc\(100vh-0px\)\] {
-  height: calc(100vh - 0px);
+.h-\[calc\(100vh-260px\)\] {
+  height: calc(100vh - 260px);
 }
 
-.h-\[calc\(100vh-180px\)\] {
-  height: calc(100vh - 180px);
+.h-\[calc\(100vh-250px\)\] {
+  height: calc(100vh - 250px);
 }
 
-.h-\[calc\(100vh-170px\)\] {
-  height: calc(100vh - 170px);
+.h-\[calc\(100vh-270px\)\] {
+  height: calc(100vh - 270px);
 }
 
-.h-\[calc\(100vh-20px\)\] {
-  height: calc(100vh - 20px);
-}
-
-.h-\[calc\(100vh-240px\)\] {
-  height: calc(100vh - 240px);
-}
-
-.h-24 {
-  height: 6rem;
-}
-
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
+.h-\[calc\(100vh-280px\)\] {
+  height: calc(100vh - 280px);
 }
 
 .w-1\/2 {
@@ -741,13 +733,13 @@ video {
   width: calc(100vw - 80px);
 }
 
-.w-full {
-  width: 100%;
-}
-
 .w-fit {
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .flex-col {
@@ -780,10 +772,6 @@ video {
 
 .gap-5 {
   gap: 1.25rem;
-}
-
-.gap-40 {
-  gap: 10rem;
 }
 
 .gap-96 {

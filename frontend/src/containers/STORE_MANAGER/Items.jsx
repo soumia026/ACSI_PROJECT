@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import icon from '../../assets/Iconly/icon.png';
 import { useEffect, useState } from "react";
-import {useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 
 
 const Items = () => {
@@ -65,6 +65,12 @@ const Items = () => {
           <SideBar />
           <div className="flex items-center flex-col">
               <NavBar />
+              <span>
+                <p>Inventory Summary</p>
+                <Link >
+                  Add a new product
+                </Link>
+              </span>
               <div className="bg-soumia-500 w-[calc(100vw-120px)] h-fit mt-5 flex flex-col justify-between gap-3 rounded-xl text-white p-5">
                 <img src={icon} className="w-fit"/>
                 <div className="flex w-[calc(100vw-120px)] gap-96"> 

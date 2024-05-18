@@ -35,7 +35,7 @@ exports.authUser = asyncHandler(async (req, res, next) => {
 // @route    POST /api/users
 // @access   Public
 exports.registerUser = asyncHandler(async(req, res, next) => {
-    const { name, email, password, role } = req.body
+    const { name, email, password, roles } = req.body
 
     const userExists = await User.findOne({email})
 
@@ -47,7 +47,7 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
         name,
         email,
         password,
-        role,
+        roles,
         status: 'pending'
     })
 
@@ -57,7 +57,7 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role,
+            role: user.roles,
             status: user.status,
         
         })
