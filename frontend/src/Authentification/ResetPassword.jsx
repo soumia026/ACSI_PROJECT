@@ -1,5 +1,6 @@
 import mailIcon from '../assets/Iconly/Light/Message.png'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../assets/Logo.svg'
 import lockIcon from '../assets/Iconly/Light/Lock.png'
 import eyeOff from '../assets/Iconly/Light/fi_eye-off.png'
@@ -10,6 +11,7 @@ import { useParams } from 'react-router-dom';
 const ForgotPassword = () => {
     const {resetToken} = useParams()
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -22,12 +24,13 @@ const ForgotPassword = () => {
 
         try {
             console.log(password)
+            console.log(resetToken)
             const response = await fetch(`http://localhost:4000/api/users/resetpassword/${resetToken}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(password)
+                body: JSON.stringify({password})
             });
 
             if (!response.ok) {
@@ -35,9 +38,10 @@ const ForgotPassword = () => {
                 console.log(errorData)
                 throw new Error('Network response was not ok');
             }
-
+            
             const responseData = await response.json();
             console.log(responseData)
+            navigate('/login')
         } catch (error) {
             console.error('Error:', error);
         }

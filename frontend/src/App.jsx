@@ -35,7 +35,7 @@ function App() {
           <Route path="/forgot_password" element={<ForgotPassword />} />
           <Route path="/admin_auth" element={<AdminAuth setUser={setUser} setUserRole={setUserRole}/>} />
           <Route path="/after_forgot_password" element={<AfterForgotPassword />} />
-          <Route path="/reset_password/:resetToken" element={<ResetPassword />}/>
+          <Route path="/reset-password/:resetToken" element={<ResetPassword />}/>
         </Route>
         <Route element={<WithBar userName={user} userRole={userRole} />}>
           <Route path='/admin/products' element={<Products user={userRole} />} />
