@@ -7,6 +7,26 @@ const asyncHandler = require('express-async-handler')
 const ErrorResponse = require('../utils/ErrorResponse')
 const sendEmail = require('../utils/sendEmail')
 
+// @desc     Authenticate user
+// @route    POST /api/users/login
+// @access   Public
+exports.authAdmin = asyncHandler(async (req, res, next) => {
+    const { email, password } = req.body
+    const user = await User.findOne({ email })
+
+    if (user && (await user.matchPassword(password)) && (isAdmin === true)) {
+            res.status(200).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                token: user.generateJWT()
+            })
+    } else {
+        return next(new ErrorResponse('Invalid email or password', 400));
+    }
+})
+
 // @desc     Get pending Users
 // @route    Get /api/users/
 // @access   Private
