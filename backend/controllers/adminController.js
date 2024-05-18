@@ -11,21 +11,21 @@ const sendEmail = require('../utils/sendEmail')
 // @route    POST /api/users/login
 // @access   Public
 exports.authAdmin = asyncHandler(async (req, res, next) => {
-    const { email, password } = req.body
-    const user = await User.findOne({ email })
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
-    if (user && (await user.password) && ( await user.isAdmin === true)) {
-            res.status(200).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                isAdmin: user.isAdmin,
-                token: user.generateJWT()
-            })
+    if (user && (await user.password) && (await user.isAdmin === true)) {
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: user.generateJWT()
+        });
     } else {
         return next(new ErrorResponse('Invalid email or password', 400));
     }
-})
+});
 
 // @desc     Get pending Users
 // @route    Get /api/users/

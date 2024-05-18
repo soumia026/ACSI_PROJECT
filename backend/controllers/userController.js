@@ -20,6 +20,7 @@ exports.authUser = asyncHandler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
                 token: user.generateJWT()
             })
         } else {
@@ -61,6 +62,7 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
             status: user.status,
         
         })
+        console.log('user added successfully')
     } else {
         next(new ErrorResponse('Invalid user data', 400))
     }

@@ -1,10 +1,14 @@
 const express = require('express')
+const cors = require('cors');
+
 
 const app = express()
 
 // body parser
 app.use(express.json())
 
+// cors
+app.use(cors());
 // dotenv configuration
 require('dotenv').config()
 
