@@ -38,11 +38,11 @@ const SideBar = ({user}) => {
                     </ul>
                 }
                 {
-                    user.role === 'invetory manager' &&
+                    user.role === 'store manager' &&
                     <ul className='flex flex-col gap-3'>
                         <img src={Category} className='p-4 rounded-xl'/>
                         <img src={Bag} className='p-4 rounded-xl'/>
-                        <img src={User} className='bg-soumia-500 p-4 rounded-xl' /><img src={UserDark} className='p-4 rounded-xl'/>
+                        <img src={UserDark} className='p-4 rounded-xl'/>
                         {path === '/manager/products' ? <Link><img src={Folder} className='bg-soumia-500 p-4 rounded-xl'/></Link> : <Link to='/manager/products'><img src={darkFolder} className='p-4 rounded-xl'/></Link>}
                         <img src={Message} className='p-4 rounded-xl'/>
                         <img src={Setting} className='p-4 rounded-xl'/>
@@ -51,8 +51,8 @@ const SideBar = ({user}) => {
             </div>
             <div className=' flex md:items-center justify-center flex-col '>
                 <ul className='flex flex-col gap-3'>
-                    {path === '' ? '' : <Link><img src={Headphones} className='bg-[#EFEFF0] p-4 rounded-xl'/></Link>}
-                    {path === '' ? '' : <Link><img src={Gift} className='bg-[#FFF5E9] p-4 rounded-xl'/></Link>}
+                    <img src={Headphones} className='bg-[#EFEFF0] p-4 rounded-xl'/>
+                    <img src={Gift} className='bg-[#FFF5E9] p-4 rounded-xl'/>
                 </ul>
                 <button className='mb-10 mt-6' onClick={logout}><img src={Logout}/></button>
             </div>
