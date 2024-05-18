@@ -14,7 +14,7 @@ exports.authAdmin = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
 
-    if (user && (await user.matchPassword(password)) && (isAdmin === true)) {
+    if (user && (await user.password) && ( await user.isAdmin === true)) {
             res.status(200).json({
                 _id: user._id,
                 name: user.name,

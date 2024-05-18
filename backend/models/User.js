@@ -31,7 +31,8 @@ const UserSchema = new mongoose.Schema({
         default: 'pending'
     },
     isAdmin: {
-        type: Boolean
+        type: Boolean,
+        default: 'false'
     }
 }, {
     toJSON: { virtuals: true },
