@@ -9,16 +9,15 @@ import {useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 
-const ProductsTable = ({products}) => {
+const ProductsTable = ({products, user}) => {
     const navigate = useNavigate();
-    const userRole = 'invetory manager';
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
     
     const handleRowClick = (id)=>{
-        if (userRole === 'admin'){
+        if (user === 'admin'){
             navigate(`/admin/product/${id}`);
-        } else if (userRole === 'invetory manager'){
+        } else if (user === 'store manager'){
             navigate(`/manager/product/${id}`);
         }
     }

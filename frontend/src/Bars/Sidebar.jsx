@@ -17,18 +17,7 @@ import { useEffect, useState } from 'react'
 const SideBar = ({user}) => {
     const location = useLocation()
     const path = location.pathname
-    const [userRole, setUserRole] = useState('')
     
-    const handleUser = () => {
-        if(user.isAdmin){
-            setUserRole('admin')
-        } else {
-            setUserRole(user.role)
-        }
-    }
-    useEffect(()=>{
-        handleUser() 
-    }, [])
     const navigate = useNavigate()
     const logout = ()=>{
         localStorage.removeItem('token')
@@ -40,7 +29,7 @@ const SideBar = ({user}) => {
                 <img src={Logo} className='w-16 mb-10 mt-2' />
                 
                 {
-                    userRole === 'admin' && 
+                    user === 'admin' && 
                     <ul className='flex flex-col gap-3'>
                         <img src={Category} className='p-4 rounded-xl'/>
                         <img src={Bag} className='p-4 rounded-xl'/>
@@ -51,7 +40,7 @@ const SideBar = ({user}) => {
                     </ul>
                 }
                 {
-                    userRole === 'store manager' &&
+                    user === 'store manager' &&
                     <ul className='flex flex-col gap-3'>
                         <img src={Category} className='p-4 rounded-xl'/>
                         <img src={Bag} className='p-4 rounded-xl'/>

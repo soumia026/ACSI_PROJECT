@@ -16,28 +16,33 @@ import StoreProducts from './Pages/Manager/StoreProducts';
 import AddProduct from './Pages/Manager/AddProduct';
 import StoreProduct from './Pages/Manager/StoreProduct';
 import AdminAuth from './Pages/Admin/AdminAuth';
-import { useState } from 'react';
+import ResetPassword from './Authentification/ResetPassword'
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState('')
+  const [userRole, setUserRole] = useState('')
+    
+    
   return (
     <Router>
       <Routes>
         <Route element={<WithoutBar />}>
           <Route exact path="/" element={<Landing />} />
-          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/login" element={<Login setUser={setUser} setUserRole={setUserRole}/>} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/after_sign_up" element={<AfterSignUp />} />
           <Route path="/forgot_password" element={<ForgotPassword />} />
-          <Route path="/admin_auth" element={<AdminAuth setUser={setUser} />} />
+          <Route path="/admin_auth" element={<AdminAuth setUser={setUser} setUserRole={setUserRole}/>} />
           <Route path="/after_forgot_password" element={<AfterForgotPassword />} />
+          <Route path="/reset_password/:resetToken" element={<ResetPassword />}/>
         </Route>
-        <Route element={<WithBar user={user} />}>
-          <Route path='/admin/products' element={<Products />} />
+        <Route element={<WithBar userName={user} userRole={userRole} />}>
+          <Route path='/admin/products' element={<Products user={userRole} />} />
           <Route path='/admin/requests' element={<Requests />}/>
           <Route path='/admin/product/:id' element={<Product />}/>
           <Route path='/admin/product/update_price/:id' element={<UpdatePrice />}/>
-          <Route path='/manager/products' element={<StoreProducts />}/>
+          <Route path='/manager/products' element={<StoreProducts user={userRole}/>}/>
           <Route path='/manager/add_product' element={<AddProduct />}/>
           <Route path='/manager/product/:id' element={<StoreProduct />}/>
         </Route>

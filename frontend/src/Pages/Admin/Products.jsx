@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProductBar from "../../Components/ProductBar";
 import ProductsTable from "../../Components/ProductsTable";
 
-const Products = () => {
+const Products = ({user}) => {
     const [products, setProducts] = useState([]);
     const [expiredProducts, setExpiredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ const Products = () => {
         <div className="bg-[#F4F5FA] flex flex-col gap-3 p-3">
             <h1 className="self-center text-xl">Inventory Summary</h1>
             <ProductBar products={products.length} expiredProducts={expiredProducts.length} />
-            <ProductsTable products={products} />
+            <ProductsTable products={products} user={user}/>
         </div>
 
 
