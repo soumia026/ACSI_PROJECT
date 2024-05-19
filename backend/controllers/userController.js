@@ -72,16 +72,14 @@ exports.registerUser = asyncHandler(async(req, res, next) => {
 // @access   Public
 exports.forgotPassword = asyncHandler(async(req, res, next) => {
     const user = await User.findOne({ email: req.body.email })
-
     if (user) {
         const resetToken = user.getResetToken()
-
+        console.log('forgot token', resetToken)
         await user.save({ validateBeforeSave: false })
 
         const resetUrl = `${req.body.protocol}://${req.body.hostname}:${req.body.port ? req.body.port : ''}/reset-password/${resetToken}`
 
         const message = `${user.name} are receiving this email because you have requested the reset of your password, please visit this link to update your password: ${resetUrl}`
-
         try {
             await sendEmail({
                 email: user.email,
@@ -118,7 +116,6 @@ exports.resetPassword = asyncHandler(async(req, res, next) => {
         resetPasswordToken,
         resetPasswordExpire: {$gt: Date.now()}
     })
-
     if (user) {
         user.password = req.body.password
         user.resetPasswordToken = undefined
